@@ -642,7 +642,7 @@ impl ClassCode {
 /// USB Speed is also defined in libusb but this one allows us to provide updates and custom impl
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[non_exhaustive]
-#[serde(untagged, rename_all = "snake_case")]
+#[serde(rename_all = "snake_case")]
 #[allow(missing_docs)]
 pub enum Speed {
     Unknown,
@@ -1498,6 +1498,29 @@ pub type USBDeviceExtra = DeviceExtra;
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_speed_json_roundtrip() {
+        for speed in [
+            Speed::Unknown,
+            Speed::LowSpeed,
+            Speed::FullSpeed,
+            Speed::HighSpeed,
+            Speed::HighBandwidth,
+            Speed::SuperSpeed,
+            Speed::SuperSpeedPlus,
+            Speed::SuperSpeedPlusX2,
+            Speed::Usb40Gbps,
+            Speed::Usb80Gbps,
+        ] {
+            let json = serde_json::to_string(&Some(speed.clone())).unwrap();
+            assert_ne!(json, "null");
+            assert_eq!(
+                serde_json::from_str::<Option<Speed>>(&json).unwrap(),
+                Some(speed)
+            );
+        }
+    }
 
     #[test]
     fn test_version_to_string() {
