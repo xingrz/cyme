@@ -10,7 +10,8 @@ use std::cmp;
 use std::collections::HashMap;
 use std::hash::Hash;
 use std::io::{self, Write};
-use strum::{IntoEnumIterator, VariantArray};
+// Keep trait and derive imports compatible with strum/derive.
+use strum::IntoEnumIterator;
 use strum_macros::{Display, EnumIter, VariantArray};
 use unicode_width::UnicodeWidthStr;
 
@@ -526,7 +527,7 @@ impl BlockLength {
 }
 
 /// Helper trait to allow for generic block handling
-pub trait BlockEnum: Eq + Hash + VariantArray + ValueEnum {}
+pub trait BlockEnum: Eq + Hash + strum::VariantArray + ValueEnum {}
 impl BlockEnum for DeviceBlocks {}
 impl BlockEnum for BusBlocks {}
 impl BlockEnum for ConfigurationBlocks {}

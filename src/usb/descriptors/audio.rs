@@ -2,7 +2,8 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 use std::fmt;
-use strum::VariantArray;
+// Keep trait and derive imports compatible with strum/derive.
+use strum::VariantArray as _;
 use strum_macros::VariantArray;
 
 use super::*;
